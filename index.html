@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <title>Node sockets</title>
+
+    <style>
+
+      body {
+
+        margin: 0;
+        padding: 0;
+        height: 100%;
+
+      }
+
+      .join-modal {
+
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        background-color: rgba(0, 0, 0, .5);
+
+      }
+
+      .join-modal .container {
+
+        width: 300px;
+        padding: 40px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <div class="join-modal">
+
+      <div class="container">
+
+        Join the game:<br>
+        <input type="text" placeholder="Name">
+        <button>Join!</button>
+        <p class="error"></p>
+
+      </div>
+
+    </div>
+
+    <canvas id="game" width="500" height="500"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="main.js"></script>
+
+  </body>
+
+</html>
