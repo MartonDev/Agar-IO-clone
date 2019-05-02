@@ -28,24 +28,36 @@ io.sockets.on("connection", function(socket) {
 
   var playerID;
 
-  socket.on("join", function(userinfo, response) {
+  socket.on("join", function(userinfo, response, spawnCords) {
 
     if(!playerExists(userinfo.username)) {
 
       playerID = players.length;
 
+      var randomCords = {
+
+        x: Math.floor(Math.random() * 9000) + 10,
+        y: Math.floor(Math.random() * 9000) + 10
+
+      };
+
       players.push({
 
         socketID: socket.id,
         username: userinfo.username,
-        x: 0,
-        y: 0
+        x: randomCords.x,
+        y: randomCords.y
 
       });
 
       console.log("New player connected: " + players[players.length - 1].username);
 
-      response(true);
+      response({
+
+        x: randomCords.x,
+        y: randomCords.y
+
+      });
 
     }else {
 
@@ -75,7 +87,7 @@ io.sockets.on("connection", function(socket) {
 
   });
 
-  socket.on("keydown", function(keycode) {
+  socket.on("mouse", function(mouse) {
 
     if(playerID === undefined) {
 
@@ -83,33 +95,10 @@ io.sockets.on("connection", function(socket) {
 
     }
 
-    switch(keycode) {
+    players[playerID].x += mouse.x;
+    players[playerID].y += mouse.y;
 
-      case 87: //w
-
-        players[playerID].y -= 6;
-
-        break;
-
-      case 65: //a
-
-        players[playerID].x -= 6;
-
-        break;
-
-      case 68: //d
-
-        players[playerID].x += 6;
-
-        break;
-
-      case 83: //s
-
-        players[playerID].y += 6;
-
-        break;
-
-    }
+    console.log("New pos: " + players[playerID].x);
 
   });
 
