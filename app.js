@@ -21,6 +21,7 @@ server.listen(port, function() {
 });
 
 var players = [];
+var food = [];
 
 io.sockets.on("connection", function(socket) {
 
@@ -89,6 +90,12 @@ io.sockets.on("connection", function(socket) {
 
   socket.on("disconnect", function() {
 
+    if(playerID === undefined || players[playerID]  === undefined) {
+
+      return;
+
+    }
+
     players[playerID].alive = false;
 
   });
@@ -112,7 +119,7 @@ io.sockets.on("connection", function(socket) {
 
 setInterval(function() {
 
-  io.emit("players", players);
+  io.emit("players", players, food);
 
   for(var i = 0; i < players.length; i++) {
 
@@ -163,7 +170,39 @@ setInterval(function() {
 
 }, 1000 / 60);
 
-setInterval();
+setInterval(function() {
+
+  for(var i = 0; i < players.length; i++) {
+
+    for(var j = 0; j < food.length; j++) {
+
+      if(players[i].alive && isColliding(players[i].x, players[i].y, players[i].size, food[j].x, food[j].y, 6)) {
+
+        food.splice(j, 1);
+        players[i].size += 2;
+
+      }
+
+    }
+
+  }
+
+}, 1000 / 60);
+
+setInterval(function() {
+
+  for(var i = 0; i < (Math.floor(Math.random() * 50) + 4); i++) {
+
+    food.push({
+
+      x: Math.floor(Math.random() * 9990) + 10,
+      y: Math.floor(Math.random() * 9990) + 10
+
+    });
+
+  }
+
+}, 30000);
 
 function playerExists(username) {
 
