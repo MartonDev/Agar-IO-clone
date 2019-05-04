@@ -76,10 +76,19 @@ jQuery(function($) {
 
   }, 1000 / 60);
 
-  socket.on("players", function(players) {
+  socket.on("players", function(players, food) {
 
     gameContent.clearRect(0, 0, $(gameCanvas).attr("width"), $(gameCanvas).attr("height"));
     drawCourt($(gameCanvas).attr("width") / 2 - player.x, $(gameCanvas).attr("height") / 2 - player.y);
+
+    for(var i = 0; i < food.length; i++) {
+
+      gameContent.beginPath();
+      gameContent.arc($(gameCanvas).attr("width") / 2 - player.x + food[i].x, $(gameCanvas).attr("height") / 2 - player.y + food[i].y, 6, 0, 2 * Math.PI);
+      gameContent.fillStyle = "#ff8cf7";
+      gameContent.fill();
+
+    }
 
     for(var i = 0; i < players.length; i++) {
 
