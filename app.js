@@ -155,6 +155,19 @@ setInterval(function() {
               io.emit("death", collidingItems.smaller);
               players[collidingItems.smaller].alive = false;
               players[collidingItems.bigger].size += players[collidingItems.smaller].size;
+              players[collidingItems.bigger].speed += 1.5;
+
+              var revertSpeed = function(playerID) {
+
+              	return setTimeout(function() {
+
+              		players[playerID].speed -= 1.5;
+
+              	}, 2100);
+
+              };
+
+              revertSpeed(collidingItems.bigger);
 
             }
 
@@ -180,6 +193,19 @@ setInterval(function() {
 
         food.splice(j, 1);
         players[i].size += 2;
+        players[i].speed += 1;
+
+        var revertSpeed = function(playerID) {
+
+        	return setTimeout(function() {
+
+        		players[playerID].speed -= 1;
+
+        	}, 2100);
+
+        };
+
+        revertSpeed(i);
 
       }
 
