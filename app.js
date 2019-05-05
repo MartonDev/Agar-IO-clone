@@ -73,21 +73,6 @@ io.sockets.on("connection", function(socket) {
 
   });
 
-  socket.on("tp", function(data) {
-
-    for(var i = 0; i < players.length; i++) {
-
-      if(players[playerID].alive) {
-
-        players[i].x = data.x;
-        players[i].y = data.y;
-
-      }
-
-    }
-
-  });
-
   socket.on("disconnect", function() {
 
     if(playerID === undefined || players[playerID]  === undefined) {
@@ -155,15 +140,15 @@ setInterval(function() {
               io.emit("death", collidingItems.smaller);
               players[collidingItems.smaller].alive = false;
               players[collidingItems.bigger].size += players[collidingItems.smaller].size;
-              players[collidingItems.bigger].speed += 1.5;
+              players[collidingItems.bigger].speed += 2;
 
               var revertSpeed = function(playerID) {
 
               	return setTimeout(function() {
 
-              		players[playerID].speed -= 1.5;
+              		players[playerID].speed -= 2;
 
-              	}, 2100);
+              	}, 3450);
 
               };
 
@@ -193,13 +178,13 @@ setInterval(function() {
 
         food.splice(j, 1);
         players[i].size += 2;
-        players[i].speed += 1;
+        players[i].speed += 1.5;
 
         var revertSpeed = function(playerID) {
 
         	return setTimeout(function() {
 
-        		players[playerID].speed -= 1;
+        		players[playerID].speed -= 1.5;
 
         	}, 2100);
 

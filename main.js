@@ -115,12 +115,29 @@ jQuery(function($) {
 
     if(player.alive) {
 
+      var topPlayerID;
+
+      for(var i = 0; i < players.length; i++) {
+
+        if(topPlayerID === undefined) {
+
+          topPlayerID = i;
+
+        }else if(players[i].size > players[topPlayerID].size) {
+
+          topPlayerID = i;
+
+        }
+
+      }
+
       drawPlayer($(window).width() / 2, $(window).height() / 2, "#ff0000", players[player.id].size, players[player.id].username);
 
       gameContent.fillStyle = "#000";
       gameContent.font = "14px Arial";
       gameContent.fillText("X: " + Math.floor(player.x) + " Y: " + Math.floor(player.y), $(window).width() - (gameContent.measureText("X: " + Math.floor(player.x) + " Y: " + Math.floor(player.y)).width) - 5, 16);
       gameContent.fillText("Score: " + player.size, $(window).width() - (gameContent.measureText("Score: " + player.size).width) - 5, 32);
+      gameContent.fillText("Top player: " + players[topPlayerID].username, $(window).width() - (gameContent.measureText("Top player: " + players[topPlayerID].username).width) - 5, 48);
 
     }
 
@@ -140,7 +157,7 @@ jQuery(function($) {
 
     }
 
-    $("body").append('<div class="join-modal"><div class="container">You died! Rejoin the game:<br><input type="text" placeholder="Name"><button>Join!</button><p class="error"></p></div></div>');
+    $("body").append('<div class="join-modal"><div class="container">You died! Refresh the page to rejoin!</div></div>');
     player.alive = false;
 
   });
@@ -172,16 +189,5 @@ function drawCourt(x, y) {
   gameContent.fillStyle = "#b7b7b7";
   gameContent.fillRect(9999, 0, 1, 10000);
   gameContent.fillRect(0, 9999, 10000, 1);
-
-}
-
-function tp(x, y) {
-
-  socket.emit("tp", {
-
-    x: x,
-    y: y
-
-  });
 
 }
